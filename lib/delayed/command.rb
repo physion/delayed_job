@@ -65,6 +65,9 @@ module Delayed
         opt.on('-p', '--prefix NAME', 'String to be prefixed to worker process names') do |prefix|
           @options[:prefix] = prefix
         end
+        opt.on('--not-queues=not_queues', 'Specify which queue DJs should specifically ignore') do |not_queues|
+          @options[:not_queues] = not_queues.split(',')
+        end
         opt.on('--queues=queues', 'Specify which queue DJ must look up for jobs') do |queues|
           @options[:queues] = queues.split(',')
         end
