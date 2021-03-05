@@ -9,6 +9,7 @@ module Delayed
       end
 
       def prepare
+        attach_request_id
         set_payload
         set_queue_name
         set_priority
@@ -17,6 +18,10 @@ module Delayed
       end
 
     private
+
+      def attach_request_id
+        options[:distributed_request_id] = options[:distributed_request_id] || Thread.current[:x_request_id]
+      end
 
       def set_payload
         options[:payload_object] ||= args.shift
