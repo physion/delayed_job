@@ -16,6 +16,7 @@ module Delayed
         attr_accessor :failed_at
         attr_accessor :queue
         attr_accessor :distributed_request_id
+        attr_accessor :additional_context
 
         include Delayed::Backend::Base
 

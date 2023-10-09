@@ -26,7 +26,7 @@ module Delayed
 
       def add_additional_context
         options[:additional_context] = (Thread.current[:organization_context] || {})
-                                         .merge(Thread.current[:request_store].dig(:organization_context) || {})
+                                         .merge(Thread.current[:request_store].try(:dig, :organization_context) || {})
                                          .merge(options[:additional_context] || {})
       end
 
