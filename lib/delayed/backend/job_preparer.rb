@@ -10,6 +10,7 @@ module Delayed
 
       def prepare
         attach_request_id
+        add_additional_context
         set_payload
         set_queue_name
         set_priority
@@ -21,6 +22,16 @@ module Delayed
 
       def attach_request_id
         options[:distributed_request_id] = options[:distributed_request_id] || Thread.current[:x_request_id]
+      end
+
+      def add_additional_context
+        additional_context = (Thread.current[:organization_context] || {})
+                               .merge(Thread.current[:request_store].try(:dig, :organization_context) || {})
+                               .merge(options[:additional_context] || {})
+
+        return unless additional_context.present?
+
+        options[:additional_context] = additional_context
       end
 
       def set_payload
